@@ -343,3 +343,4 @@ splitmytrack/media/
 .env
 .envs/*
 splitmytrack/_templates/
+splitmytrack/ui/static_src/
