@@ -1,0 +1,23 @@
+{% extends "ui_base.html" %}
+
+
+<!--<h1>TEST</h1>-->
+<!--  <form>-->
+
+
+<!--  </form>-->
+
+{% block content %}
+<!-- Col -->
+<div
+  class="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
+  style="background-image: url('https://source.unsplash.com/FZWivbri0Xk/100x40')"
+></div>
+<!-- Col -->
+<div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+  <h3 class="pt-4 text-2xl text-center">Download tracks</h3>
+  <h2 class="pt-4 text-center"></h2>
+  <a href="{{ url_base }}/vocals.wav">Download vocals </a><br>
+  <a href="{{ url_base }}/accompaniment.wav">Download accompaniment</a>
+</div>
+{% endblock content %}

@@ -342,3 +342,4 @@ splitmytrack/media/
 
 .env
 .envs/*
+splitmytrack/_templates/

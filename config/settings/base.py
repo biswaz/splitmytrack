@@ -74,11 +74,13 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "tailwind"
 ]
 
 LOCAL_APPS = [
     "splitmytrack.users.apps.UsersConfig",
     "splitmytrack.engine.apps.EngineConfig",
+    "splitmytrack.ui.apps.UiConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -243,7 +245,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
+                      "%(process)d %(thread)d %(message)s"
         }
     },
     "handlers": {
@@ -309,3 +311,5 @@ REST_FRAMEWORK = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+# This doesn't support AppsConfig format
+TAILWIND_APP_NAME = 'ui'
