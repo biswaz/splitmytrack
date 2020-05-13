@@ -1,3 +1,3 @@
 git pull
-./manage.py collecstatic
+./manage.py collectstatic
 systemctl restart gunicorn
