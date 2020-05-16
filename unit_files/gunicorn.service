@@ -1,0 +1,14 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+PartOf=web.target
+
+[Service]
+User=root
+WorkingDirectory=/root/deploy/splitmytrack
+ExecStart=/root/Envs/splitmytrack/bin/gunicorn --access-logfile - --workers 1 config.wsgi:application --timeout 180
+Environment="DJANGO_READ_DOT_ENV_FILE=True"
+Environment="DJANGO_SETTINGS_MODULE=config.settings.production"
+
+[Install]
+WantedBy=multi-user.target
