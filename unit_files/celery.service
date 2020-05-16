@@ -6,7 +6,7 @@ PartOf=web.target
 [Service]
 User=root
 WorkingDirectory=/root/deploy/splitmytrack
-ExecStart=/home/biswaz/.virtualenvs/splitmytrack/bin/celery -P threads -A config.celery_app worker -l info --logfile /var/log/celery/splitter.log -c 1
+ExecStart=/root/Envs/splitmytrack/bin/celery -P threads -A config.celery_app worker -l info --logfile /var/log/celery/splitter.log -c 1
 Environment="DJANGO_READ_DOT_ENV_FILE=True"
 Environment="DJANGO_SETTINGS_MODULE=config.settings.production"
 

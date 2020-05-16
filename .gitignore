@@ -338,9 +338,6 @@ MailHog
 splitmytrack/media/
 
 .pytest_cache/
-
-
-.env
 .envs/*
 splitmytrack/_templates/
 splitmytrack/ui/static_src/
