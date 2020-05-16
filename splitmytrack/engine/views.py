@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.conf import settings
 
-from .core import split_tracks
 from .forms import MusicUploadForm
+from .tasks import split_tracks_wrapper
 
 
 def home(request):
@@ -14,7 +14,7 @@ def home(request):
         if form.is_valid():
             instance = form.save()
             file_name = os.path.splitext(os.path.basename(instance.file.name))[0]
-            split_tracks(instance.file.path, file_name)
+            split_tracks_wrapper.delay(instance.file.path, file_name)
             return HttpResponseRedirect('/download/{}/'.format(file_name))
 
     else:
