@@ -74,7 +74,8 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
-    "tailwind"
+    "tailwind",
+    "rest_framework_encrypted_lookup"
 ]
 
 LOCAL_APPS = [
@@ -268,11 +269,11 @@ CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-result_backend
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-accept_content
-CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_ACCEPT_CONTENT = ['msgpack', 'pickle', 'json']
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-task_serializer
-CELERY_TASK_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = 'pickle'
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-result_serializer
-CELERY_RESULT_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = 'pickle'
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-time-limit
 # TODO: set to whatever value is adequate in your circumstances
 CELERY_TASK_TIME_LIMIT = 5 * 60
@@ -313,3 +314,8 @@ REST_FRAMEWORK = {
 # ------------------------------------------------------------------------------
 # This doesn't support AppsConfig format
 TAILWIND_APP_NAME = 'ui'
+
+ENCRYPTED_LOOKUP = {
+    'lookup_field_name': 'id',  # String value name of your drf lookup field, generally 'id' or 'pk'
+    'secret_key': '87pQQy!T7NIK7^J3F!dw%n%Vw1lCdUX',  # Choose a string value unique secret key with which to encrypt your lookup fields
+}

@@ -6,13 +6,16 @@ from spleeter.separator import Separator
 from pydub import AudioSegment
 
 from .utils import mkdir_p
-from config import celery_app
 
 _LOG = logging.getLogger(__name__)
 separator = Separator('spleeter:2stems')
 
 
-def split_tracks(input_file_path, file_name, trim=False):
+def split_tracks(instance, file_name, trim=False):
+    input_file_path = instance.file.path
+    instance.status = instance.STATUS.processing
+    instance.save()
+
     input_audio = AudioSegment.from_mp3(input_file_path)
     output_base_path = os.path.join(settings.MEDIA_ROOT, 'processed')
     output_track_dir = os.path.join(output_base_path, file_name)
@@ -34,3 +37,6 @@ def split_tracks(input_file_path, file_name, trim=False):
         .export(os.path.join(output_track_dir, 'vocals.mp3'))
     AudioSegment.from_wav(os.path.join(output_track_dir, 'accompaniment.wav')) \
         .export(os.path.join(output_track_dir, 'accompaniment.mp3'))
+
+    instance.status = instance.STATUS.processed
+    instance.save()

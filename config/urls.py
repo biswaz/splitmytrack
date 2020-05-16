@@ -9,7 +9,7 @@ from splitmytrack.engine.views import home, download
 
 urlpatterns = [
     path("", home, name="home"),
-    path("download/<fname>/", download, name="download"),
+    path("download/<encrypted_id>/", download, name="download"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
