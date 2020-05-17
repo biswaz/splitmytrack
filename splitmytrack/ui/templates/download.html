@@ -52,8 +52,8 @@
 
 {% endblock content %}
 
-{% if status != 'processed' %}
 {% block script %}
+{% if status != 'processed' %}
 
 <script>
   function sleep (time) {
@@ -67,5 +67,5 @@ sleep(10000).then(() => {
 
 </script>
 
-{% endblock script %}
 {% endif %}
+{% endblock script %}
