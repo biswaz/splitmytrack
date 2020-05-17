@@ -3,6 +3,7 @@ import os
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.conf import settings
+from django.core import serializers
 from rest_framework_encrypted_lookup.serializers import EncryptedLookupSerializerMixin
 
 from .forms import MusicUploadForm
@@ -18,7 +19,8 @@ def home(request):
             instance.status = instance.STATUS.new
             instance.save()
             file_name = os.path.splitext(os.path.basename(instance.file.name))[0]
-            split_tracks_wrapper.delay(instance, file_name)
+            serialized_instance = serializers.serialize('json', [instance])
+            split_tracks_wrapper.delay(serialized_instance, file_name)
             return HttpResponseRedirect('/download/{}/'.format(instance.encrypted_id))
 
     else:

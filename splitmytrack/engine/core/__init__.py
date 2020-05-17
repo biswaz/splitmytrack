@@ -1,7 +1,9 @@
 import logging
 import os
 import random
+
 from django.conf import settings
+from django.core import serializers
 from spleeter.separator import Separator
 from pydub import AudioSegment
 
@@ -11,7 +13,8 @@ _LOG = logging.getLogger(__name__)
 separator = Separator('spleeter:2stems')
 
 
-def split_tracks(instance, file_name, trim=False):
+def split_tracks(serialized_instance, file_name, trim=False):
+    instance = next(serializers.deserialize('json', serialized_instance)).object
     input_file_path = instance.file.path
     instance.status = instance.STATUS.processing
     instance.save()
