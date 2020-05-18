@@ -3,50 +3,60 @@
 
 {% block content %}
 <!-- Col -->
-<div
-  class="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
-  style="background-image: url('{% static "images/dj.jpeg" %}')"
-></div>
-<!-- Col -->
-<div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
-  <h3 class="pt-4 text-2xl text-center">DropVocals</h3>
-  <h2 class="pt-4 text-center">Split your mp3 track into vocals + accompaniment </h2>
-  <h1 class="pt-5 text-sm text-center">Remove vocals from songs, create acapella and karoke tracks for your favorite songs</h1>
-	  <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" method="post" novalidate enctype="multipart/form-data">
-    {% csrf_token %}
-      <div class="content-center bg-grey-lighter">
-      <label class="mb-4 mx-auto w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue">
-        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-        </svg>
-        <span class="mt-2 text-base leading-normal">Select mp3</span>
-        {{ form.file }}
-    </label>
-      </div>
-							<div class="mb-4">
+<div class="container mx-auto my-1">
+  <div class="flex justify-center px-6 my-6">
+    <!-- Row -->
+    <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+      <div
+        class="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
+        style="background-image: url('{% static "images/dj.jpeg" %}')"
+      >
+    </div>
+    <!-- Col -->
+    <div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+      <h3 class="pt-4 text-2xl text-center">DropVocals</h3>
+      <h2 class="pt-4 text-center">Split your mp3 track into vocals + accompaniment </h2>
+      <h1 class="pt-5 text-sm text-center">Remove vocals from songs, create acapella and karoke tracks for your favorite
+        songs</h1>
+      <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" method="post" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="content-center bg-grey-lighter">
+          <label
+            class="mb-4 mx-auto w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue">
+            <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path
+                d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
+            </svg>
+            <span class="mt-2 text-base leading-normal">Select mp3</span>
+            {{ form.file }}
+          </label>
+        </div>
+        <div class="mb-4">
 
-							<div class="mb-6 text-center">
-								<button
-									class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-									type="submit"
-								>
-									Upload Track
-								</button>
-							</div>
-							<hr class="mb-6 border-t" />
-							<div class="text-center">
-								<button class="inline-block text-sm text-gray-600 align-baseline hover:text-gray-800">
-									Random 30s part of the audio will be proccessed for the preview
-								</button>
-							</div>
-<!--							<div class="text-center">-->
-<!--								<a-->
-<!--									class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"-->
-<!--									href="./forgot-password.html"-->
-<!--								>-->
-<!--									Forgot Password?-->
-<!--								</a>-->
-<!--							</div>-->
-						</form>
+          <div class="mb-6 text-center">
+            <button
+              class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Upload Track
+            </button>
+          </div>
+          <hr class="mb-6 border-t"/>
+          <div class="text-center">
+            <button class="inline-block text-sm text-gray-600 align-baseline hover:text-gray-800">
+              Random 30s part of the audio will be proccessed for the preview
+            </button>
+          </div>
+          <!--							<div class="text-center">-->
+          <!--								<a-->
+          <!--									class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"-->
+          <!--									href="./forgot-password.html"-->
+          <!--								>-->
+          <!--									Forgot Password?-->
+          <!--								</a>-->
+          <!--							</div>-->
+      </form>
+    </div>
+  </div>
 </div>
-{% endblock content %}
+    {% endblock content %}
