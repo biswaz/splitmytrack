@@ -92,12 +92,16 @@
       <div>
         <div class="dropdown inline-block relative">
           {% if not user.is_authenticated %}
-          <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-            <a href="/accounts/signup"><span class="mr-1">Signup</span></a>
-          </button>
-          <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-            <a href="/accounts/login"><span class="mr-1">Login</span></a>
-          </button>
+          <a href="/accounts/signup">
+            <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+              <span class="mr-1">Signup</span>
+            </button>
+          </a>
+          <a href="/accounts/login">
+            <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+              <span class="mr-1">Login</span>
+            </button>
+          </a>
           {% else %}
           <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
             <a href="/accounts/login"><span class="mr-1">{{ user.get_username }} </span></a>
