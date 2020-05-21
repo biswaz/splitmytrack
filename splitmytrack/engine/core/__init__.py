@@ -13,7 +13,7 @@ _LOG = logging.getLogger(__name__)
 separator = Separator('spleeter:2stems')
 
 
-def split_tracks(serialized_instance, file_name, trim=False):
+def split_tracks(serialized_instance, file_name, trim=True):
     instance = next(serializers.deserialize('json', serialized_instance)).object
     input_file_path = instance.file.path
     instance.status = instance.STATUS.processing

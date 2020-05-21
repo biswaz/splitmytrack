@@ -316,3 +316,5 @@ ENCRYPTED_LOOKUP = {
     'lookup_field_name': 'id',  # String value name of your drf lookup field, generally 'id' or 'pk'
     'secret_key': '87pQQy!T7NIK7^J3F!dw%n%Vw1lCdUX',  # Choose a string value unique secret key with which to encrypt your lookup fields
 }
+RAZORPAY_API_KEY = env('RAZORPAY_API_KEY')
+RAZORPAY_API_SECRET = env('RAZORPAY_API_SECRET')

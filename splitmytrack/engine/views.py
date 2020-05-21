@@ -1,14 +1,17 @@
 import os
 
+import razorpay
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.conf import settings
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 from rest_framework_encrypted_lookup.serializers import EncryptedLookupSerializerMixin
 
-from .forms import MusicUploadForm
+from .forms import MusicUploadForm, OrderForm
 from .models import TrackUpload
 from .tasks import split_tracks_wrapper
+from ..users.models import Order
 
 
 def home(request):
@@ -35,3 +38,49 @@ def download(request, encrypted_id):
     url_base = os.path.join(settings.MEDIA_URL, 'processed', fname)
 
     return render(request, 'download.html', {'url_base': url_base, 'status': track.status})
+
+
+@login_required()
+def buy(request, pack_id=None):
+    client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
+    if request.method == 'POST':
+        order = Order.objects.get(razorpay_order_id=request.POST.get('razorpay_order_id'))
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order_params = {
+                'razorpay_order_id': order.razorpay_order_id,
+                'razorpay_payment_id': order.razorpay_payment_id,
+                'razorpay_signature': order.razorpay_signature
+            }
+            if client.utility.verify_payment_signature(order_params):  # else show error
+                order.status = order.STATUS.paid
+                request.user.coins += order.coins
+                order.save()
+                request.user.save()
+                return HttpResponseRedirect('/')
+
+    else:
+        if pack_id == 1:
+            amount = 1*100
+            coins = 1
+        elif pack_id == 2:
+            amount = 160*100
+            coins = 10
+        elif pack_id == 3:
+            amount = 750*100
+            coins = 50
+
+        order = Order(buyer=request.user, coins=coins)
+        data = {
+            'amount': amount,  # in paisa
+            'currency': 'INR',
+            'receipt': str(order.receipt),
+            'payment_capture': 1
+        }
+        rz_order = client.order.create(data=data)
+        order.razorpay_order_id = rz_order['id']
+        order.status = order.STATUS.created
+        order.amount = amount
+        order.save()
+        return render(request, 'buy.html', {'order_id': rz_order['id']})

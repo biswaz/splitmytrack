@@ -5,7 +5,7 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
-from splitmytrack.engine.views import home, download
+from splitmytrack.engine.views import home, download, buy
 
 urlpatterns = [
     path("", home, name="home"),
@@ -21,7 +21,9 @@ urlpatterns = [
     # User management
     path("users/", include("splitmytrack.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+    path("buy/<int:pack_id>", buy),
+    path("buy/", buy),
+    path("pricing/", TemplateView.as_view(template_name="pricing.html"))
 ]
 
 # API URLS

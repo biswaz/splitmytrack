@@ -30,3 +30,6 @@ pydub==0.23.1
 django-tailwind==0.8.0
 django-model-utils==4.0.0
 django-rest-encrypted-lookup==0.10.1
+
+razorpay==1.2.0
+
