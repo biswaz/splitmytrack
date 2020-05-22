@@ -18,11 +18,20 @@
       <h2 class="pt-4 text-center">Split your mp3 track into vocals + accompaniment </h2>
       <h1 class="pt-5 text-sm text-center">Remove vocals from songs, create acapella and karoke tracks for your favorite
         songs</h1>
-      <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" method="post" novalidate enctype="multipart/form-data" id="upload_form">
+      <form
+        class="px-8 pt-6 pb-8 mb-4 bg-white rounded"
+        method="post"
+        novalidate
+        enctype="multipart/form-data"
+        id="upload_form"
+        autocomplete="off"
+      >
         {% csrf_token %}
         <div class="content-center bg-grey-lighter">
           <label id="upload_label"
-            class="mb-4 mx-auto w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer  hover:bg-purple-600 hover:text-white">
+            class="mb-4 mx-auto md:w-64 flex flex-col items-center px-4 py-6 bg-white text-blue
+            rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer
+            bg-purple-700 text-white">
             <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path
                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
@@ -33,13 +42,14 @@
         </div>
         <div class="mb-4">
 
-          <div class="mb-6 text-center">
+<!--          <div class="mb-6 text-center">
             <button
-              class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full
+               hover:bg-blue-700 focus:outline-none focus:shadow-outline"
               onclick="uploadFile(event)"
             >
               Upload Track
-            </button>
+            </button>-->
               <progress id="progressBar" class="hidden" value="0" max="100" style="width:300px;"></progress>
   <h3 id="status"></h3>
   <p id="loaded_n_total"></p>
@@ -66,19 +76,18 @@
 
 {% block script %}
 <script>
-  document.querySelector("#id_file").addEventListener('change', changeUploadButtonClass)
-  function changeUploadButtonClass(event){
+   function _(el) {
+  return document.getElementById(el)
+  }
+
+  document.querySelector("#id_file").addEventListener('change', onFileSelect)
+
+  function onFileSelect(event){
     label_el = document.querySelector("#upload_label")
-    label_el.classList.add("bg-purple-600")
+    label_el.classList.add("bg-purple-600", "text-white")
     file_name_label_el = document.querySelector("#file_name_label")
     file_name_label_el.textContent = this.value.replace(/.*[\/\\]/, '')
-   }
 
-   function _(el) {
-  return document.getElementById(el);
-}
-
-function uploadFile() {
   var formdata = new FormData(document.querySelector('#upload_form'));
   var request = new XMLHttpRequest()
   ;
@@ -102,6 +111,7 @@ function uploadFile() {
 
   function completeHandler(event) {
     _("progressBar").value = 0; //wil clear progress bar after successful upload
+    _("upload_form").submit()
   }
 
   function errorHandler(event) {

@@ -1,4 +1,5 @@
 from django.db import models
+from model_utils.fields import StatusField
 from model_utils.models import StatusModel
 from model_utils import Choices
 
@@ -6,11 +7,18 @@ from rest_framework_encrypted_lookup.serializers import EncryptedLookupSerialize
 
 
 # Create your models here.
+from splitmytrack.users.models import User
+
+
 class TrackUpload(StatusModel):
-    UPLOAD_DIR = 'uploads/'
     STATUS = Choices('new', 'processing', 'processed', 'error')
+    CONVERSION_CHOICES = Choices('preview', 'full')
+    UPLOAD_DIR = 'uploads/'
+
     upload_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=UPLOAD_DIR)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    conversion_type = StatusField(choices_name='CONVERSION_CHOICES')
 
     @property
     def encrypted_id(self):

@@ -13,7 +13,7 @@ _LOG = logging.getLogger(__name__)
 separator = Separator('spleeter:2stems')
 
 
-def split_tracks(serialized_instance, file_name, trim=True):
+def split_tracks(serialized_instance, file_name, pro=False):
     instance = next(serializers.deserialize('json', serialized_instance)).object
     input_file_path = instance.file.path
     instance.status = instance.STATUS.processing
@@ -24,7 +24,7 @@ def split_tracks(serialized_instance, file_name, trim=True):
     output_track_dir = os.path.join(output_base_path, file_name)
     mkdir_p(output_track_dir)
 
-    if trim and len(input_audio) > 30 * 1000:
+    if not pro and len(input_audio) > 30 * 1000:
         start = random.randrange(0, len(input_audio) - 30 * 1000, 1000)
         end = start + 30 * 1000
         _LOG.info("\nStart: {}\t End: {}".format(start, end))
@@ -42,4 +42,6 @@ def split_tracks(serialized_instance, file_name, trim=True):
         .export(os.path.join(output_track_dir, 'accompaniment.mp3'))
 
     instance.status = instance.STATUS.processed
+    if pro:
+        instance.conversion_type = instance.CONVERSION_CHOICES.full
     instance.save()

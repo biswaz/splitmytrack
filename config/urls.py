@@ -5,7 +5,7 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
-from splitmytrack.engine.views import home, download, buy
+from splitmytrack.engine.views import home, download, buy, regen_full_track
 
 urlpatterns = [
     path("", home, name="home"),
@@ -23,7 +23,8 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("buy/<int:pack_id>", buy),
     path("buy/", buy),
-    path("pricing/", TemplateView.as_view(template_name="pricing.html"))
+    path("pricing/", TemplateView.as_view(template_name="pricing.html")),
+    path('regen/<str:encrypted_id>', regen_full_track)
 ]
 
 # API URLS

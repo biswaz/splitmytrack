@@ -20,10 +20,17 @@ def home(request):
         if form.is_valid():
             instance = form.save()
             instance.status = instance.STATUS.new
+            if request.user.is_authenticated:
+                instance.user = request.user
             instance.save()
             file_name = os.path.splitext(os.path.basename(instance.file.name))[0]
             serialized_instance = serializers.serialize('json', [instance])
-            split_tracks_wrapper.delay(serialized_instance, file_name)
+            pro = False
+            if request.user.is_authenticated and request.user.coins > 0:
+                request.user.coins -= 1
+                request.user.save()
+                pro = True
+            split_tracks_wrapper.delay(serialized_instance, file_name, pro=pro)
             return HttpResponseRedirect('/download/{}/'.format(instance.encrypted_id))
 
     else:
@@ -37,7 +44,7 @@ def download(request, encrypted_id):
     fname = os.path.splitext(os.path.basename(track.file.name))[0]
     url_base = os.path.join(settings.MEDIA_URL, 'processed', fname)
 
-    return render(request, 'download.html', {'url_base': url_base, 'status': track.status})
+    return render(request, 'download.html', {'url_base': url_base, 'track': track})
 
 
 @login_required()
@@ -58,17 +65,20 @@ def buy(request, pack_id=None):
                 request.user.coins += order.coins
                 order.save()
                 request.user.save()
+                latest_track = request.user.trackupload_set.latest('status_changed')
+                if latest_track:
+                    return HttpResponseRedirect('/regen/{}'.format(latest_track.encrypted_id))
                 return HttpResponseRedirect('/')
 
     else:
         if pack_id == 1:
-            amount = 1*100
+            amount = 1 * 100
             coins = 1
         elif pack_id == 2:
-            amount = 160*100
+            amount = 160 * 100
             coins = 10
         elif pack_id == 3:
-            amount = 750*100
+            amount = 750 * 100
             coins = 50
 
         order = Order(buyer=request.user, coins=coins)
@@ -84,3 +94,22 @@ def buy(request, pack_id=None):
         order.amount = amount
         order.save()
         return render(request, 'buy.html', {'order_id': rz_order['id']})
+
+
+@login_required()
+def regen_full_track(request, encrypted_id):
+    if request.method == 'POST':
+        decrypted_id = EncryptedLookupSerializerMixin.get_cipher().decode(encrypted_id)
+        track = TrackUpload.objects.get(id=decrypted_id)
+        file_name = os.path.splitext(os.path.basename(track.file.name))[0]
+        serialized_instance = serializers.serialize('json', [track])
+        pro = False
+        if request.user.coins > 0:
+            request.user.coins -= 1
+            request.user.save()
+            pro = True
+        # handle else redirect
+        split_tracks_wrapper.delay(serialized_instance, file_name, pro=pro)
+        return HttpResponseRedirect('/download/{}/'.format(encrypted_id))
+    else:
+        return render(request, 'regen.html', {})
