@@ -19,9 +19,10 @@
 </head>
 
 <body class="h-screen items-center justify-center" style="background: #edf2f7;">
-<div>
-  <nav class="flex items-center justify-between flex-wrap bg-purple-800 p-2">
-    <a href="/">
+
+  <header class="lg:px-16 px-8 bg-white flex flex-wrap items-center py-4 shadow-md bg-purple-800 text-white">
+    <div class="flex-1 flex justify-between items-center ">
+          <a href="/">
       <div class="flex items-center flex-shrink-0 text-white mr-6">
         <svg class="fill-current h-10 w-10 mr-2" width="64" height="64" viewBox="0 0 64 64"
              xmlns="http://www.w3.org/2000/svg">
@@ -68,124 +69,37 @@
         <span class="font-semibold text-xl tracking-tight">DropVocals</span>
       </div>
     </a>
-    <div class="block lg:hidden">
-      <button
-        class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
-        </svg>
-      </button>
     </div>
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-      <div class="text-sm lg:flex-grow">
-        <!--        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">-->
-        <!--          Docs-->
-        <!--        </a>-->
-        <!--        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">-->
-        <!--          Examples-->
-        <!--        </a>-->
-        <!--        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">-->
-        <!--          Blog-->
-        <!--        </a>-->
-      </div>
 
-      <div>
-        <div class="dropdown inline-block relative">
+    <label for="menu-toggle" class="pointer-cursor md:hidden block">
+      <svg class="fill-current text-gray-900"
+        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+        <title>menu</title>
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+      </svg>
+    </label>
+    <input class="hidden" type="checkbox" id="menu-toggle" />
+
+    <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
+      <nav>
+        <ul class="md:flex items-center justify-between text-base pt-4 md:pt-0">
           {% if not user.is_authenticated %}
-          <a href="/accounts/signup">
-            <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-              <span class="mr-1">Signup</span>
-            </button>
-          </a>
-          <a href="/accounts/login">
-            <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-              <span class="mr-1">Login</span>
-            </button>
-          </a>
+          <li><a class="md:p-4 py-3 px-0 block" href="/accounts/signup">Signup</a></li>
+          <li><a class="md:p-4 py-3 px-0 block md:mb-0 mb-2" href="/accounts/login">Signin</a></li>
           {% else %}
-          <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-            <a href="/accounts/login"><span class="mr-1">{{ user.get_username }} Coins: {{ user.coins }} </span></a>
-            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-            </svg>
-          </button>
-          <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 w-full">
-            <li class=""><a class="rounded bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                            href="/accounts/logout">Logout</a></li>
-          </ul>
+          <li><a class="md:p-4 py-3 px-0 block" href="">{{ user.get_username }} Coins: {{ user.coins }}</a></li>
+          <li><a class="md:p-4 py-3 px-0 block md:mb-0 mb-2" href="/accounts/logout">Logout</a></li>
           {% endif %}
-        </div>
-      </div>
+        </ul>
+      </nav>
     </div>
-  </nav>
-</div>
+  </header>
+
   <!-- Container -->
 
-        {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
-        {% endblock content %}
-
-
-<!-- Footer -->
-<!--  <div class="container bg-grey-lighter p-8">-->
-<!--      <div class="sm:flex mb-4">-->
-<!--    <div class="sm:w-1/4 h-auto">-->
-<!--        <div class="text-orange mb-2">Orange</div>-->
-<!--        <ul class="list-reset leading-normal">-->
-<!--            <li class="hover:text-orange text-grey-darker">One</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Two</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Three</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Four</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Five</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Six</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Seven</li>-->
-<!--            <li class="hover:text-orange text-grey-darker">Eight</li>-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--    <div class="sm:w-1/4 h-auto sm:mt-0 mt-8">-->
-<!--        <div class="text-blue mb-2">Blue</div>-->
-<!--        <ul class="list-reset leading-normal">-->
-<!--            <li class="hover:text-blue text-grey-darker">One</li>-->
-<!--            <li class="hover:text-blue text-grey-darker">Two</li>-->
-<!--            <li class="hover:text-blue text-grey-darker">Three</li>-->
-<!--        </ul>-->
-
-<!--      <div class="text-blue-light mb-2 mt-4">Blue-light</div>-->
-<!--        <ul class="list-reset leading-normal">-->
-<!--            <li class="hover:text-blue-light text-grey-darker">One</li>-->
-<!--            <li class="hover:text-blue-light text-grey-darker">Two</li>-->
-<!--            <li class="hover:text-blue-light text-grey-darker">Three</li>-->
-<!--        </ul>-->
-
-<!--    </div>-->
-<!--    <div class="sm:w-1/4 h-auto sm:mt-0 mt-8">-->
-<!--              <div class="text-green-dark mb-2">Green-dark</div>-->
-<!--        <ul class="list-reset leading-normal">-->
-<!--            <li class="hover:text-green-dark text-grey-darker">One</li>-->
-<!--            <li class="hover:text-green-dark text-grey-darker">Two</li>-->
-<!--            <li class="hover:text-green-dark text-grey-darker">Three</li>-->
-<!--        </ul>-->
-
-<!--      <div class="text-green-light mb-2 mt-4">Green-light</div>-->
-<!--        <ul class="list-reset leading-normal">-->
-<!--            <li class="hover:text-green-light text-grey-darker">One</li>-->
-<!--            <li class="hover:text-green-light text-grey-darker">Two</li>-->
-<!--            <li class="hover:text-green-light text-grey-darker">Three</li>-->
-<!--        </ul>-->
-
-
-<!--    </div>-->
-<!--      <div class="sm:w-1/2 sm:mt-0 mt-8 h-auto">-->
-<!--          <div class="text-red-light mb-2">Newsletter</div>-->
-<!--          <p class="text-grey-darker leading-normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, consectetur. </p>-->
-<!--          <div class="mt-4 flex">-->
-<!--              <input type="text" class="p-2 border border-grey-light round text-grey-dark text-sm h-auto" placeholder="Your email address">-->
-<!--              <button class="bg-orange text-white rounded-sm h-auto text-xs p-3">Subscribe</button>-->
-<!--          </div>-->
-<!--      </div>-->
-
-<!--  </div>-->
-<!--  </div>-->
+    {% block content %}
+    <p>Use this document as a way to quick start any new project.</p>
+    {% endblock content %}
 
 </body>
 

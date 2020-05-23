@@ -47,15 +47,27 @@
         </a>
       </div>
       {% if track.conversion_type == track.CONVERSION_CHOICES.preview %}
-      <div class="mx-auto flex items-center">
-        <a href="/pricing" class="bg-red-600 hover:bg-blue-700
-        text-white flex-1 font-bold py-2 px-4 border
-        border-blue-700 rounded my-4 text-center">
-        <button>
-        Get the full song for just 20 Rs!
-        </button>
-        </a>
-      </div>
+        {% if coins_available %}
+        <div class="mx-auto flex items-center">
+          <a href="/regen/{{track.encrypted_id}}" class="bg-red-600 hover:bg-blue-700
+          text-white flex-1 font-bold py-2 px-4 border
+          border-blue-700 rounded my-4 text-center">
+          <button>
+          You have coins! Convert preview to full version
+          </button>
+          </a>
+        </div>
+        {% else %}
+        <div class="mx-auto flex items-center">
+          <a href="/pricing" class="bg-red-600 hover:bg-blue-700
+          text-white flex-1 font-bold py-2 px-4 border
+          border-blue-700 rounded my-4 text-center">
+          <button>
+          Get the full song for just 20 Rs!
+          </button>
+          </a>
+        </div>
+      {% endif %}
       {% endif %}
 
     </div>

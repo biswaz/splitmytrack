@@ -45,8 +45,14 @@ def download(request, encrypted_id):
     track = TrackUpload.objects.get(id=decrypted_id)
     fname = os.path.splitext(os.path.basename(track.file.name))[0]
     url_base = os.path.join(settings.MEDIA_URL, 'processed', fname)
-
-    response = render(request, 'download.html', {'url_base': url_base, 'track': track})
+    coins_available = False
+    if request.user.is_authenticated and request.user.coins > 0:
+        coins_available = True
+    response = render(
+        request,
+        'download.html',
+        {'url_base': url_base, 'track': track, 'coins_available': coins_available}
+    )
     response.set_cookie(LAST_UPLOADED_TRACK_COOKIE, encrypted_id)
     return response
 
@@ -100,11 +106,14 @@ def buy(request, pack_id=None):
 
 
 @login_required()
-def regen_full_track(request):
+def regen_full_track(request, encrypted_id=None):
     if request.method == 'POST':
-        if not request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE):
+        if not encrypted_id and request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE):
             return HttpResponseRedirect('/')
-        encrypted_id = request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE)
+        elif encrypted_id:
+            pass
+        else:
+            encrypted_id = request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE)
         decrypted_id = EncryptedLookupSerializerMixin.get_cipher().decode(encrypted_id)
         track = TrackUpload.objects.get(id=decrypted_id)
         file_name = os.path.splitext(os.path.basename(track.file.name))[0]
