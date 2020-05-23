@@ -51,8 +51,8 @@
               Upload Track
             </button>-->
               <progress id="progressBar" class="hidden" value="0" max="100" style="width:300px;"></progress>
-  <h3 id="status"></h3>
-  <p id="loaded_n_total"></p>
+              <h3 id="status"></h3>
+              <p id="loaded_n_total"></p>
           </div>
           <hr class="mb-6 border-t"/>
           <div class="text-center">
@@ -76,42 +76,14 @@
 
 {% block script %}
 <script>
-   function _(el) {
+  function _(el) {
   return document.getElementById(el)
   }
 
-  document.querySelector("#id_file").addEventListener('change', onFileSelect)
-
-  function onFileSelect(event){
-    label_el = document.querySelector("#upload_label")
-    label_el.classList.add("bg-purple-600", "text-white")
-    file_name_label_el = document.querySelector("#file_name_label")
-    file_name_label_el.textContent = this.value.replace(/.*[\/\\]/, '')
-
-  var formdata = new FormData(document.querySelector('#upload_form'));
-  var request = new XMLHttpRequest()
-  ;
-  request.upload.addEventListener("progress", progressHandler, false);
-  request.addEventListener("load", completeHandler, false);
-  request.addEventListener("error", errorHandler, false);
-  request.addEventListener("abort", abortHandler, false);
-
-  request.open('POST', window.location.href)
-  request.send(formdata);
-  }
-
-  function progressHandler(event) {
-  debugger
-    _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
-    var percent = (event.loaded / event.total) * 100;
-    _("progressBar").classList.remove("hidden")
-    _("progressBar").value = Math.round(percent);
-    _("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
-  }
-
   function completeHandler(event) {
+    console.log("complete")
+    window.location.replace(event.currentTarget.responseURL)
     _("progressBar").value = 0; //wil clear progress bar after successful upload
-    _("upload_form").submit()
   }
 
   function errorHandler(event) {
@@ -121,6 +93,34 @@
   function abortHandler(event) {
     _("status").innerHTML = "Upload Aborted";
   }
+
+  function progressHandler(event) {
+    _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
+    var percent = (event.loaded / event.total) * 100;
+    _("progressBar").classList.remove("hidden")
+    _("progressBar").value = Math.round(percent);
+    _("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+  }
+
+  function onFileSelect(event){
+    label_el = document.querySelector("#upload_label")
+    label_el.classList.add("bg-purple-600", "text-white")
+    file_name_label_el = document.querySelector("#file_name_label")
+    file_name_label_el.textContent = this.value.replace(/.*[\/\\]/, '')
+
+    var formdata = new FormData(document.querySelector('#upload_form'));
+    var request = new XMLHttpRequest()
+
+    request.upload.addEventListener("progress", progressHandler, false);
+    request.addEventListener("load", completeHandler, false);
+    request.addEventListener("error", errorHandler, false);
+    request.addEventListener("abort", abortHandler, false);
+    request.open('POST', window.location.href)
+    response = request.send(formdata);
+  }
+
+  document.querySelector("#id_file").addEventListener('change', onFileSelect)
+
 
 </script>
 {% endblock script %}
