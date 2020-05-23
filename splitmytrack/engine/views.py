@@ -13,6 +13,8 @@ from .models import TrackUpload
 from .tasks import split_tracks_wrapper
 from ..users.models import Order
 
+LAST_UPLOADED_TRACK_COOKIE = 'lastUploadedTrack'
+
 
 def home(request):
     if request.method == 'POST':
@@ -44,7 +46,9 @@ def download(request, encrypted_id):
     fname = os.path.splitext(os.path.basename(track.file.name))[0]
     url_base = os.path.join(settings.MEDIA_URL, 'processed', fname)
 
-    return render(request, 'download.html', {'url_base': url_base, 'track': track})
+    response = render(request, 'download.html', {'url_base': url_base, 'track': track})
+    response.set_cookie(LAST_UPLOADED_TRACK_COOKIE, encrypted_id)
+    return response
 
 
 @login_required()
@@ -60,14 +64,13 @@ def buy(request, pack_id=None):
                 'razorpay_payment_id': order.razorpay_payment_id,
                 'razorpay_signature': order.razorpay_signature
             }
-            if client.utility.verify_payment_signature(order_params):  # else show error
+            if client.utility.verify_payment_signature(order_params):  # TODO: else show error
                 order.status = order.STATUS.paid
                 request.user.coins += order.coins
                 order.save()
                 request.user.save()
-                latest_track = request.user.trackupload_set.latest('status_changed')
-                if latest_track:
-                    return HttpResponseRedirect('/regen/{}'.format(latest_track.encrypted_id))
+                if request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE):
+                    return HttpResponseRedirect('/regen')
                 return HttpResponseRedirect('/')
 
     else:
@@ -97,8 +100,11 @@ def buy(request, pack_id=None):
 
 
 @login_required()
-def regen_full_track(request, encrypted_id):
+def regen_full_track(request):
     if request.method == 'POST':
+        if not request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE):
+            return HttpResponseRedirect('/')
+        encrypted_id = request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE)
         decrypted_id = EncryptedLookupSerializerMixin.get_cipher().decode(encrypted_id)
         track = TrackUpload.objects.get(id=decrypted_id)
         file_name = os.path.splitext(os.path.basename(track.file.name))[0]
