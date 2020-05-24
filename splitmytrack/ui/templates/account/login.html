@@ -8,7 +8,6 @@
 
 {% block inner %}
 
-<h1 class="text-xl">{% trans "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
 
@@ -30,8 +29,10 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 {% include "socialaccount/snippets/login_extra.html" %}
 
 {% else %}
-<p class="text-gray-600 text-sm">{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}" class="uppercase text-black mr-2">sign up</a>first</p>
+<p class="text-gray-600 text-sm py-2">{% blocktrans %}Don't have an account yet?</p>
+<a href="{{ signup_url }}" class="pt-2 uppercase text-black mr-2 bg-transparent
+hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border
+border-blue-500 hover:border-transparent rounded">create an account</a>
 {% endblocktrans %}
 {% endif %}
 
@@ -42,7 +43,10 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <div class="my-4">
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">{% trans "Sign In" %}</button>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none
+  focus:shadow-outline" type="submit">
+    {% trans "Sign In" %}
+  </button>
   <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
   </div>
 </form>
