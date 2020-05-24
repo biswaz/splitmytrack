@@ -83,7 +83,7 @@ def buy(request, pack_id=None):
         if pack_id == 1:
             amount = 1 * 100
             coins = 1
-        elif pack_id == 2:
+        elif pack_id == 2 or pack_id is None:
             amount = 160 * 100
             coins = 10
         elif pack_id == 3:
@@ -108,7 +108,7 @@ def buy(request, pack_id=None):
 @login_required()
 def regen_full_track(request, encrypted_id=None):
     if request.method == 'POST':
-        if not encrypted_id and request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE):
+        if not encrypted_id and not request.COOKIES.get(LAST_UPLOADED_TRACK_COOKIE):
             return HttpResponseRedirect('/')
         elif encrypted_id:
             pass
