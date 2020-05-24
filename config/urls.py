@@ -24,6 +24,7 @@ urlpatterns = [
     path("buy/<int:pack_id>", buy),
     path("buy/", buy),
     path("pricing/", TemplateView.as_view(template_name="pricing.html")),
+    path("privacy/", TemplateView.as_view(template_name="privacy.html")),
     path('regen/', regen_full_track),
     path('regen/<str:encrypted_id>', regen_full_track)
 ]
