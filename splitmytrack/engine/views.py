@@ -102,7 +102,7 @@ def buy(request, pack_id=None):
         order.status = order.STATUS.created
         order.amount = amount
         order.save()
-        return render(request, 'buy.html', {'order_id': rz_order['id']})
+        return render(request, 'buy.html', {'order_id': rz_order['id'], 'razorpay_key': settings.RAZORPAY_API_KEY})
 
 
 @login_required()
