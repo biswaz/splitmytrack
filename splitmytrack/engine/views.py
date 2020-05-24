@@ -81,7 +81,7 @@ def buy(request, pack_id=None):
 
     else:
         if pack_id == 1:
-            amount = 1 * 100
+            amount = 20 * 100
             coins = 1
         elif pack_id == 2 or pack_id is None:
             amount = 160 * 100
