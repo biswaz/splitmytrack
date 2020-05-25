@@ -3,12 +3,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 from splitmytrack.engine.views import home, download, buy, regen_full_track
 
 urlpatterns = [
     path("", home, name="home"),
+    path('favicon.ico', RedirectView.as_view(url='/static/images/favicons/favicon.ico')),
     path("download/<encrypted_id>/", download, name="download"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
