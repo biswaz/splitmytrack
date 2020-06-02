@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from model_utils.fields import StatusField
 from model_utils.models import StatusModel
 from model_utils import Choices
@@ -26,3 +27,6 @@ class TrackUpload(StatusModel):
 
     def __str__(self):
         return self.file.name + ' : ' + self.status
+
+    def get_absolute_url(self):
+        return reverse('download', args=[self.encrypted_id])
