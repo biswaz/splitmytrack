@@ -17,7 +17,7 @@ def split_tracks(serialized_instance, file_name, pro=False):
     instance = next(serializers.deserialize('json', serialized_instance)).object
     input_file_path = instance.file.path
     instance.status = instance.STATUS.processing
-    instance.save()
+    instance.save(force_update=True)
 
     input_audio = AudioSegment.from_mp3(input_file_path)
     output_base_path = os.path.join(settings.MEDIA_ROOT, 'processed')
@@ -44,4 +44,4 @@ def split_tracks(serialized_instance, file_name, pro=False):
     instance.status = instance.STATUS.processed
     if pro:
         instance.conversion_type = instance.CONVERSION_CHOICES.full
-    instance.save()
+    instance.save(force_update=True)
