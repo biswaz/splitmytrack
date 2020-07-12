@@ -341,3 +341,6 @@ splitmytrack/media/
 .envs/*
 splitmytrack/_templates/
 splitmytrack/ui/static_src/
+scripts/
+*/pretrained_models/
+pretrained_models/
