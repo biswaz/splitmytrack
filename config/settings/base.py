@@ -1,6 +1,7 @@
 """
 Base settings to build other settings files upon.
 """
+import os
 from pathlib import Path
 
 import environ
@@ -56,6 +57,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+    "admin_tools_stats",
+    "django_nvd3",
+    "djangobower",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -299,7 +303,7 @@ SOCIALACCOUNT_ADAPTER = "splitmytrack.users.adapters.SocialAccountAdapter"
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
 INSTALLED_APPS += ["compressor"]
-STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
+STATICFILES_FINDERS += ["compressor.finders.CompressorFinder",  "djangobower.finders.BowerFinder"]
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
@@ -321,3 +325,15 @@ ENCRYPTED_LOOKUP = {
 }
 RAZORPAY_API_KEY = env('RAZORPAY_API_KEY')
 RAZORPAY_API_SECRET = env('RAZORPAY_API_SECRET')
+
+ADMIN_CHARTS_NVD3_JS_PATH = 'nvd3/build/nv.d3.js'
+ADMIN_CHARTS_NVD3_CSS_PATH = 'nvd3/build/nv.d3.css'
+ADMIN_CHARTS_D3_JS_PATH = 'd3/d3.js'
+
+BOWER_COMPONENTS_ROOT = os.path.join(ROOT_DIR, 'components')
+
+
+BOWER_INSTALLED_APPS = (
+    'd3#3.3.13',
+    'nvd3#1.7.1',
+)
