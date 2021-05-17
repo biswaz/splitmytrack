@@ -1,7 +1,9 @@
 splitmytrack
 ============
 
-Behold My Awesome Project!
+Split My Track is a web based system to split music files into vocals and accompaniment
+
+Internally uses https://github.com/deezer/spleeter/
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
